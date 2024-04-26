@@ -14,7 +14,7 @@ const Home = () => {
 
 useEffect(() => {
   setIsLoading(true);
-  fetch("jobs.json").then(res => res.json()).then(data => {
+  fetch("http://54.211.233.3:3000/all-jobs").then(res => res.json()).then(data => {
     //console.log(data)
     setJobs(data);
     setIsLoading(false)
@@ -28,8 +28,16 @@ useEffect(() => {
     setQuery(event.target.value)
   }
 
+  //handle location change
+  const [locationquery, setLocationQuery] = useState("");
+  const handleLocationChange = (event) => {
+    setLocationQuery(event.target.value)
+    
+  }
+
   // filter by title
   const filteredItems = jobs.filter((job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) != -1);
+  const locationFilteredItems = jobs.filter((job) => job.jobLocation.toLowerCase().indexOf(locationquery.toLowerCase()) != -1);
 
   //---------------- RADIO FILTERING ------------------
   const handleChange = (event) => {
@@ -63,7 +71,7 @@ useEffect(() => {
   }
 
   // main function
-  const filteredData = (jobs, selected, query) => {
+  const filteredData = (jobs, selected, query, locationquery) => {
     let filteredJobs = jobs;
 
     // filtering input items
@@ -71,14 +79,18 @@ useEffect(() => {
       filteredJobs = filteredItems;
     }
 
+    if(locationquery){
+      filteredJobs = locationFilteredItems;
+    }
+
     //category filtering
     if(selected){
 
-      filteredJobs = filteredJobs.filter(({jobLocation, maxPrice, salaryType, experienceLevel, employmentType, postingDate}) => {
+      filteredJobs = filteredJobs.filter(({jobLocation, maxPrice, Title, experienceLevel, employmentType, postingDate}) => {
           return jobLocation.toLowerCase() === selected.toLowerCase() ||
           parseInt(maxPrice) <= parseInt(selected) ||
           postingDate >= selected ||
-          salaryType.toLowerCase() === selected.toLowerCase() ||
+          Title.toLowerCase() === selected.toLowerCase() ||
           employmentType.toLowerCase() === selected.toLowerCase() ||
           experienceLevel.toLowerCase() === selected.toLowerCase()
       });
@@ -91,11 +103,10 @@ useEffect(() => {
     return filteredJobs.map((data, i) => <Card key={i} data={data}/>)
   } 
 
-  const result = filteredData(jobs, selectedCategory, query);
-
+  const result = filteredData(jobs, selectedCategory, query, locationquery);
   return (
     <div>
-      <Banner query={query} handleInputChange={handleInputChange} />
+      <Banner query={query} locationQuery={locationquery} handleInputChange={handleInputChange} handleLocationChange={handleLocationChange} />
 
       {/* main content */}
       <div className="bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12">

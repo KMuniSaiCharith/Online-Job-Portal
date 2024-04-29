@@ -19,7 +19,7 @@ const CreateJob = () => {
       const onSubmit = (data) => {
         data.skills = selectedOption;
         //console.log(data);
-        fetch("http://54.211.233.3:3000/post-job",{
+        fetch("https://online-job-portal-api.onrender.com/post-job",{
         method:"POST",
         headers:{'Content-type':'application/json'},
         body: JSON.stringify(data)

@@ -15,7 +15,7 @@ const MyJobs = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:3000/my-jobs/kmunisaicharith005@gmail.com`)
+        fetch(`https://online-job-portal-api.onrender.com/my-jobs/${email}`)
         .then(res => res.json())
         .then(data => {
             setJobs(data);
@@ -65,7 +65,7 @@ const handleDelete = (id) => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://54.211.233.3:3000/job/${id}`,{
+        fetch(`https://online-job-portal-api.onrender.com/job/${id}`,{
         method : "DELETE"
     })
     .then(res => res.json)

@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         {path: "post-job", element:<CreateJob/>},
         {path: "my-job", element:<MyJobs/>},
         {path: "salary", element:<Salary/>},
-        {path: "edit-job/:id", element:<UpdateJob/>, loader: ({params}) => fetch(`http://54.211.233.3:3000/all-jobs/${params.id}`)},
+        {path: "edit-job/:id", element:<UpdateJob/>, loader: ({params}) => fetch(`https://online-job-portal-api.onrender.com/all-jobs/${params.id}`)},
         {path: "/login",element: <Login/>},
         {path: "/signup",element: <SignUp/>},
         {path: "/job/:id", element:<JobDetails/>}
